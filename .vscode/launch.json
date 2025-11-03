@@ -1,0 +1,44 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "node-terminal",
+			"name": "Debug Server-side",
+			"request": "launch",
+			"command": "npm run dev",
+			"cwd": "${workspaceFolder}",
+			"sourceMaps": true,
+			"env": {
+				"CONFIG_PATH": "./data/"
+			},
+			"skipFiles": [
+				"<node_internals>/**"
+			]
+		},
+		{
+			"name": "Debug Client-side",
+			"type": "chrome",
+			"request": "launch",
+			"url": "http://localhost:3000",
+			"webRoot": "${workspaceFolder}",
+			"sourceMaps": true,
+			"sourceMapPathOverrides": {
+				"/__vite-env-meta/*": "${workspaceFolder}/*"
+			}
+		},
+		{
+			"name": "Debug Client-side (Alternate Browser)",
+			"type": "chrome",
+			"request": "launch",
+			"url": "http://localhost:3000",
+			"webRoot": "${workspaceFolder}",
+			"sourceMaps": true,
+			"runtimeArgs": [
+				"--incognito"
+			]
+		}
+	]
+}
