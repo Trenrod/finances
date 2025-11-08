@@ -11,6 +11,7 @@
 			"command": "npm run dev",
 			"cwd": "${workspaceFolder}",
 			"sourceMaps": true,
+			"pauseForSourceMap": true,
 			"env": {
 				"CONFIG_PATH": "./data/"
 			},

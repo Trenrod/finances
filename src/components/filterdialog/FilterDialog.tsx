@@ -33,14 +33,15 @@ import { TConfig } from "~/interfaces/Config"
 
 const deleteCategoryRule = createServerFn({
 	method: 'POST',
-	response: "data"
 })
-	.validator((data: unknown) => z.string().parse(data))
+	.inputValidator((data: unknown) => z.string().parse(data))
 	.handler(async ({ data }) => {
 		try {
+			console.log("Deleting category rule with uuid", data);
 			await PersistanceClient.getInstance().deleteCategoryRule(data);
 			return { data };
 		} catch (error) {
+			console.error("Fehler beim loeschen der Regel", error);
 			return { error };
 		}
 	});
@@ -50,9 +51,8 @@ const deleteCategoryRule = createServerFn({
  */
 const createNewFilter = createServerFn({
 	method: 'POST',
-	response: "data"
 })
-	.validator((data: unknown) => zsCategoryRule.parse(data))
+	.inputValidator((data: unknown) => zsCategoryRule.parse(data))
 	.handler(async ({ data }) => {
 		// Create new filter uuid
 		const categoryRuleUUID = await createUUIDFromObject(data);

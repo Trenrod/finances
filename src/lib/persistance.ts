@@ -33,11 +33,14 @@ export class PersistanceClient {
 
 	public async setAllTransactionComments(comments: TTransactionCommentFromDB) {
 		// Logic to save all transaction comments to the persistance layer
-		await writeFile('./transactionCommentsFromDB.json', JSON.stringify(comments, null, 2), 'utf-8');
+		const rootConfigPath = process.env.CONFIG_PATH || './';
+		await writeFile(path.join(rootConfigPath, 'transactionCommentsFromDB.json'), JSON.stringify(comments, null, 2), 'utf-8');
 	}
 
 	public async setTransactionComments(uuid: string, text: string) {
-		const allComments = await this.getAllTransactionComments();
+		// Read env for config path
+		const rootConfigPath = process.env.CONFIG_PATH || './';
+		const allComments = await this.getAllTransactionComments(rootConfigPath);
 		if (text === "") {
 			delete allComments[uuid];
 			await this.setAllTransactionComments(allComments);
@@ -49,18 +52,20 @@ export class PersistanceClient {
 
 	async saveCategoryRule(data: TCategoryRule) {
 		// Logic to save a category rule to the persistance layer
-		const categoryRulesFromDB = await this.getAllCategoryRules();
+		const rootConfigPath = process.env.CONFIG_PATH || './';
+		const categoryRulesFromDB = await this.getAllCategoryRules(rootConfigPath);
 		if (!data.uuid) {
 			throw new Error("Category rule must have a uuid to be saved");
 		}
 		categoryRulesFromDB[data.uuid] = data;
-		await writeFile('./categoryRulesFromDB.json', JSON.stringify(categoryRulesFromDB, null, 2), 'utf-8');
+		await writeFile(path.join(rootConfigPath, 'categoryRulesFromDB.json'), JSON.stringify(categoryRulesFromDB, null, 2), 'utf-8');
 	}
 
 	async deleteCategoryRule(uuid: string) {
 		// Logic to delete a category rule from the persistance layer
-		const categoryRulesFromDB = await this.getAllCategoryRules();
+		const rootConfigPath = process.env.CONFIG_PATH || './';
+		const categoryRulesFromDB = await this.getAllCategoryRules(rootConfigPath);
 		delete categoryRulesFromDB[uuid];
-		await writeFile('./categoryRulesFromDB.json', JSON.stringify(categoryRulesFromDB, null, 2), 'utf-8');
+		await writeFile(path.join(rootConfigPath, 'categoryRulesFromDB.json'), JSON.stringify(categoryRulesFromDB, null, 2), 'utf-8');
 	}
 }

@@ -1,8 +1,7 @@
 import type { Color } from "chart.js";
-import type { TLabels } from "~/lib/label";
 import { TMonth } from "./TMonth";
 
-export interface IDataSetItemData { month: TMonth, value: number, label: TLabels }
+export interface IDataSetItemData { month: TMonth, value: number, label: string }
 
 export interface IDataSetItem {
 	data: IDataSetItemData[],

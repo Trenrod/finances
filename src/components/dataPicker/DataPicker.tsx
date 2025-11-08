@@ -18,7 +18,7 @@ enum EDataPickerStepState {
 const parseCSV = createServerFn({
 	method: 'POST',
 })
-	.validator(z.string())
+	.inputValidator(z.string())
 	.handler(async ({ data }): Promise<TBankTransaction[]> => {
 		// Placeholder for server function
 		const parsedCSV = csvParser({

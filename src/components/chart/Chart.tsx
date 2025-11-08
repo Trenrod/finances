@@ -21,6 +21,21 @@ export function Chart({ chartData, filterCallback, fixedIncome }: { chartData: I
 
 	console.log("Draw chart");
 
+	const annotationBox: Record<string, ChartAnnotation.AnnotationOptions> = {};
+	if (fixedIncome > 0) {
+		annotationBox['lineIncome'] =
+		{
+			// Indicates the type of annotation
+			type: 'line',
+			xMin: -.5,
+			xMax: 9.5,
+			yMin: -1 * fixedIncome,
+			yMax: -1 * fixedIncome,
+			borderColor: 'rgba(0, 128, 0, 0.50)',
+			borderDash: [6, 6],
+		};
+	}
+
 	return <Bar
 		datasetIdKey='id'
 		data={chartData}
@@ -37,18 +52,7 @@ export function Chart({ chartData, filterCallback, fixedIncome }: { chartData: I
 			},
 			plugins: {
 				annotation: {
-					annotations: {
-						box1: {
-							// Indicates the type of annotation
-							type: 'line',
-							xMin: -.5,
-							xMax: 9.5,
-							yMin: -1 * fixedIncome,
-							yMax: -1 * fixedIncome,
-							borderColor: 'rgba(0, 128, 0, 0.50)',
-							borderDash: [6, 6],
-						}
-					}
+					annotations: annotationBox,
 				},
 				title: {
 					display: true,

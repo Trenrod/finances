@@ -26,7 +26,7 @@ interface IGetAllDataResponse {
 const getAllData = createServerFn({
 	method: 'POST',
 })
-	.validator(z.array(zsBankTransaction))
+	.inputValidator(z.array(zsBankTransaction))
 	.handler(async ({ data }): Promise<IGetAllDataResponse> => {
 		// Read env for config path
 		const rootConfigPath = process.env.CONFIG_PATH || './';
@@ -65,7 +65,6 @@ function Home() {
 			getAllData({
 				data: bankTransactions
 			}).then((data: IGetAllDataResponse) => {
-				console.log("Received processed data from server:", bankTransactions);
 				setChartData(createDataTableForChart(data.transactionsPerMonth, data.config));
 				setDataDableData(createDataTableData(data.transactionsPerMonth, dataSetItem));
 				setBackendData(data);
@@ -95,6 +94,7 @@ function Home() {
 		setDataDableData(createDataTableData(backendData.transactionsPerMonth, dataSetItem));
 	};
 
+	// Fixed income only if no filters is applied
 	return <div className="p-1 flex flex-col">
 		<Chart chartData={chartData} filterCallback={filterCallback} fixedIncome={backendData.config.fixedIncome} />
 		{

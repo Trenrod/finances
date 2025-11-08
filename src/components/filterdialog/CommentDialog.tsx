@@ -24,9 +24,8 @@ import { NotebookPen } from "lucide-react"
  */
 const setComment = createServerFn({
 	method: 'POST',
-	response: "data"
 })
-	.validator((data: unknown) => zsTransactionComment.parse(data))
+	.inputValidator((data: unknown) => zsTransactionComment.parse(data))
 	.handler(async ({ data }) => {
 		try {
 			await PersistanceClient.getInstance().setTransactionComments(data.uuid, data.text);
